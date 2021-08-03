@@ -72,7 +72,7 @@ namespace Mango.Web.Controllers
             catch (Exception kostas)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { kostas.ToString() };
+                _response.ErrorMessages = new List<string>() {kostas.ToString()};
             }
             return _response;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mango.Services.ProductAPI.Repository
 {
-     public  interface IProductRepository
+     public  interface IProductRepository// when we get or return sometning we work we dto
      {
         Task<IEnumerable<ProductDto>> GetProducts();// for async method that returns a value get all product
         Task<ProductDto> GetProductById(int productId);// get product by Id
