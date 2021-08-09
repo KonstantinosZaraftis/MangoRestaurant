@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Mango.Services.ProductAPI.DbContexts;
 using Mango.Services.ProductAPI.Models;
+using Mango.Services.ProductAPI.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Mango.Services.ProductAPI.Repository
     public class ProductRepository : IProductRepository// implement the IProductRepository
     {
 
-        private readonly ApplicationDbContext _db;// using dependency injection 
+        private readonly ApplicationDbContext _db;// using dependency injection we use private readonly to 
         private IMapper _mapper;
 
         public  ProductRepository(ApplicationDbContext db,IMapper mapper) //using dependency injection
@@ -64,7 +65,7 @@ namespace Mango.Services.ProductAPI.Repository
 
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
-          List<Product> productList= await _db.Products.ToListAsync();
+            List<Product> productList= await _db.Products.ToListAsync();
             return _mapper.Map<List<ProductDto>>(productList);
         }
     }

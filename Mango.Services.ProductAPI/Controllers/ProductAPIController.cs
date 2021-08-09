@@ -1,82 +1,84 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mango.Services.ProductAPI.Models;
 using Mango.Services.ProductAPI.Models.Dto;
 using Mango.Services.ProductAPI.Repository;
-using Microsoft.AspNetCore.Mvc;
+using Mango.Services.ProductAPI.Models;
 
-namespace Mango.Web.Controllers
+namespace Mango.Services.ProductAPI.Controllers
 {
     [Route("api/products")]
     public class ProductAPIController : ControllerBase
     {
-        protected ResponseDto _response; //not to pass something generic so create the responsedto
+        protected ResponseDto _response;
         private IProductRepository _productRepository;
 
         public ProductAPIController(IProductRepository productRepository)
         {
-            _productRepository = productRepository;
+            _productRepository = productRepository; 
             this._response = new ResponseDto();
         }
+
         [HttpGet]
-        public async Task<object> Get()
+        public async Task<object>Get()
         {
             try
             {
                 IEnumerable<ProductDto> productDtos = await _productRepository.GetProducts();
                 _response.Result = productDtos;
-
-            }
-            catch (Exception kostas)
+             }
+            catch(Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { kostas.ToString() };
+                _response.ErrorMessages
+                    = new List<string>() { ex.ToString() };
             }
-            return _response;
-
+             return _response;
         }
 
 
+
+
         [HttpGet]
-        [Route("{id}")]
+        [Route("id")]
         public async Task<object> Get(int id)
         {
             try
             {
-               ProductDto productDtos = await _productRepository.GetProductById(id);
-                _response.Result = productDtos;
-
+               ProductDto productDto = await _productRepository.GetProductById(id);
+                _response.Result = productDto;
             }
-            catch (Exception kostas)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { kostas.ToString() };
+                _response.ErrorMessages
+                    = new List<string>() { ex.ToString() };
             }
             return _response;
-
         }
 
 
 
         [HttpPost]
-         public async Task<object> Post(ProductDto productDto)
-         {
+        public async Task<object> Post(ProductDto productDto)
+        {
             try
             {
                 ProductDto model = await _productRepository.CreateUpdateProduct(productDto);
                 _response.Result = model;
-
             }
-            catch (Exception kostas)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() {kostas.ToString()};
+                _response.ErrorMessages
+                    = new List<string>() { ex.ToString() };
             }
             return _response;
+        }
 
-         }
+
 
 
 
@@ -86,35 +88,35 @@ namespace Mango.Web.Controllers
             try
             {
                 ProductDto model = await _productRepository.CreateUpdateProduct(productDto);
-                _response.Result = model;
-
+                 _response.Result = model;
             }
-            catch (Exception kostas)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { kostas.ToString() };
+                _response.ErrorMessages
+                    = new List<string>() { ex.ToString() };
             }
             return _response;
-
         }
+
 
         [HttpDelete]
         public async Task<object> Delete(int id)
         {
             try
             {
-                bool  isSuccess = await _productRepository.DeleteProduct(id);
-                _response.Result = isSuccess;
-
+                bool isSuccess = await _productRepository.DeleteProduct(id);
+                   _response.Result = isSuccess;
             }
-            catch (Exception kostas)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string>() { kostas.ToString() };
+                _response.ErrorMessages
+                    = new List<string>() { ex.ToString() };
             }
             return _response;
-
         }
+
 
 
 
